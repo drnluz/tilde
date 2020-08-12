@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+
+<script type="text/javascript">
+class Utils {
+  // https://github.com/jashkenas/underscore/blob/master/underscore.js#L87
+  static isObject(obj) {
+    var type = typeof obj
+    return type === 'function' || type === 'object' && !!obj
+  }
+}
+
+class StateNode {
+  constructor(value, parent) {
+    var _this = this
+    this._parent = parent
+
+    if (!Utils.isObject(value)) {
+      //error: Should be called only for objects
+    }
+    else {
+      this._value = {}
+      Object.keys(value).forEach((key) => {
+        if (Utils.isObject(value[key])) {
+          this._value[key] = new StateNode(value[key], this)
+          Object.defineProperty(this, key, {
+            set: (newValue) => {
+              _this._value[key] = new StateNode(newValue, _this)
+            },
+            get: () => { _this._value[key] }
+          })
+        }
+        else {
+          this._value = value[key]
+          Object.defineProperty(this, key, {
+            set: (newValue) => {
+              _this._value = newValue
+            },
+            get: () => { _this._value }
+          })
+        }
+      })
+    }
+  }
+}
+
+window.StateNode = StateNode
+window.Utils = Utils
+</script>
+
+</body>
+</html>
