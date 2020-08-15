@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title></title>
-</head>
-<body>
-
-<script type="text/javascript">
 class Utils {
   // https://github.com/jashkenas/underscore/blob/master/underscore.js#L87
   static isObject(obj) {
@@ -58,9 +50,4 @@ class StateTree {
   }
 }
 
-window.StateTree = StateTree
-window.Utils = Utils
-</script>
-
-</body>
-</html>
+export default StateTree
