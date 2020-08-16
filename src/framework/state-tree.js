@@ -30,6 +30,19 @@ class StateTree {
     }
   }
 
+  update(newValue, emit = true) {
+    if (Utils.isObject(newValue)) {
+      this._value = new StateTree(newValue, this)
+    }
+    else {
+      this._value = newValue
+    }
+
+    if (emit) {
+      this.emit('change')
+    }
+  }
+
   on(event, callback) {
     this._callbacks[event] = this._callbacks[event] || []
     this._callbacks[event].push(callback)
@@ -43,7 +56,8 @@ class StateTree {
     callbacks.forEach((callback) => callback(event))
 
     if (propagate && this._parent) {
-      this._parent.emit(event)
+      // TODO: Currently we only emit 'change' event, that's why I'm including the value
+      this._parent.emit(event, this._value)
     }
 
     return this
