@@ -19,10 +19,8 @@ class VoltInput {
           this.element.setAttribute(originalAttribute, newValue)
         })
 
-        // Listen for changes in state and update attribute.
-        // How to avoid loop???
         this.element.addEventListener('change', (_) => {
-          Volt.updateState(statePath, this.element.value, false)
+          Volt.updateState({ path: statePath, value: this.element.value, emit: false })
         })
       }
     }

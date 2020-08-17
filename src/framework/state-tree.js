@@ -53,11 +53,11 @@ class StateTree {
   emit(event, propagate = true) {
     let callbacks = this._callbacks[event] || []
 
-    callbacks.forEach((callback) => callback(event))
+    // TODO: Currently we only emit 'change' event, that's why I'm including the value
+    callbacks.forEach((callback) => callback(event, this._value))
 
     if (propagate && this._parent) {
-      // TODO: Currently we only emit 'change' event, that's why I'm including the value
-      this._parent.emit(event, this._value)
+      this._parent.emit(event)
     }
 
     return this

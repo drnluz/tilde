@@ -20,10 +20,9 @@ class Volt {
     return statePart
   }
 
-  updateState(path, newValue, emit) {
-    const pathParts = path.split('.')
-    let statePart = this.findState(path)
-    statePart.update(newValue, emit)
+  updateState({ path, value, emit }) {
+    const statePart = this.findState(path)
+    statePart.update(value, emit)
   }
 }
 
