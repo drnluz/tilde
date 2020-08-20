@@ -16,11 +16,13 @@ class VoltInput {
 
         state.on('change', (_, newValue) => {
           let originalAttribute = attr.name.replace('~', '')
+
+          // It doesnt enter an infinite loop of 'change' triggers...
           this.element.setAttribute(originalAttribute, newValue)
         })
 
         this.element.addEventListener('change', (_) => {
-          Volt.updateState({ path: statePath, value: this.element.value, emit: false })
+          Volt.updateState({ path: statePath, value: this.element.value })
         })
       }
     }
