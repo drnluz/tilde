@@ -1,16 +1,16 @@
-import Volt from '../framework/volt'
-import VoltState from './html_components/volt-state'
-import VoltForm from './html_components/volt-form'
-import VoltView from './html_components/volt-view'
+import Tilde from '../framework/tilde'
+import TildeState from './html_components/tilde-state'
+import TildeForm from './html_components/tilde-form'
+import TildeView from './html_components/tilde-view'
 
-const voltInstance = new Volt()
+const tildeInstance = new Tilde()
 
-window.Volt = voltInstance
+window.tilde = tildeInstance
 
-window.addEventListener('DOMContentLoaded', (event) => {
-  window.customElements.define('v-state', VoltState)
-  window.customElements.define('v-form', VoltForm)
-  window.customElements.define('v-view', VoltView)
+window.addEventListener('DOMContentLoaded', (_) => {
+  window.customElements.define('t-state', TildeState)
+  window.customElements.define('t-form', TildeForm)
+  window.customElements.define('t-view', TildeView)
 })
 
-export default voltInstance
+export default tildeInstance

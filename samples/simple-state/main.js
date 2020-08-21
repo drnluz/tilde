@@ -1,1 +1,1 @@
-import Volt from '../../src/web'
+import Tilde from '../../src/web'

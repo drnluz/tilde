@@ -1,6 +1,6 @@
 import StateTree from "./state-tree"
 
-class Volt {
+class Tilde {
   constructor() {
     this.state = new StateTree({})
   }
@@ -26,4 +26,4 @@ class Volt {
   }
 }
 
-export default Volt
+export default Tilde

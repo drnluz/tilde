@@ -1,6 +1,6 @@
-import Volt from '..'
+import Tilde from '..'
 
-class VoltGeneric {
+class TildeGeneric {
   constructor(element) {
     this.element = element
     this.children = []
@@ -15,7 +15,7 @@ class VoltGeneric {
     }
 
     Array.from(this.element.children).forEach((child) => {
-      this.children.push(new VoltGeneric(child))
+      this.children.push(new TildeGeneric(child))
     })
   }
 
@@ -25,12 +25,12 @@ class VoltGeneric {
     const attributes = this.element.attributes
     for (var i = 0; i < attributes.length; i++) {
       let attr = attributes[i]
-      if (attr.name.startsWith('~') || attr.name === 'data-volt-attr') {
+      if (attr.name.startsWith('~') || attr.name === 'data-tilde-attr') {
 
         // Now it got tricky! What if attr contains an expression??
 
         let statePath = attr.value
-        let state = Volt.findState(statePath)
+        let state = Tilde.findState(statePath)
 
         state.on('change', (_, newValue) => {
           let originalAttribute = attr.name.replace('~', '')
@@ -41,4 +41,4 @@ class VoltGeneric {
   }
 }
 
-export default VoltGeneric
+export default TildeGeneric

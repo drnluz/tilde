@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Volt.html Simple State</title>
+<title>tilde.html Simple State</title>
 <script src="./simple_state.js"></script>
 </head>
 <body>
-  <v-state name="myState">
+  <t-state name="myState">
     <script type="application/json">
       { "input": "" }
     </script>
-  </v-state>
+  </t-state>
 
-  <v-form>
+  <t-form>
     <input type="text" ~value="myState.input" />
 
     <!-- TODO: Support expressions inside ~ attributes. Also support special functions like setState -->
     <!-- TODO: Some kind of ~for -->
-    <v-view>
+    <t-view>
       <div ~hidden='myState.input == ""'>
         <!-- <p ~for="option in myState.options" ~innerHtml="option">test</p> -->
         Hi
       </div>
-    </v-view>
+    </t-view>
 
 
-  </v-form>
+  </t-form>
 </body>
 </html>

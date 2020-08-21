@@ -1,7 +1,7 @@
-import Volt from '..'
+import Tilde from '..'
 import '@webcomponents/custom-elements'
 
-class VoltState extends HTMLElement {
+class TildeState extends HTMLElement {
   constructor() {
     super()
 
@@ -14,8 +14,8 @@ class VoltState extends HTMLElement {
 
     // Check if this attribute exists and raise error if not
     let name = this.attributes["name"].value
-    Volt.addState(name, stateObject)
+    Tilde.addState(name, stateObject)
   }
 }
 
-export default VoltState
+export default TildeState

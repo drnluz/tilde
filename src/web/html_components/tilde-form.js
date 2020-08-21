@@ -1,14 +1,14 @@
-import VoltInput from './volt-input'
+import TildeInput from './tilde-input'
 import '@webcomponents/custom-elements'
 
-class VoltForm extends HTMLElement {
+class TildeForm extends HTMLElement {
   constructor() {
     super()
     this.formFields = []
   }
 
-  setupVoltInput(element) {
-    let input = new VoltInput(element)
+  setupTildeInput(element) {
+    let input = new TildeInput(element)
     this.formFields.push(input)
   }
 
@@ -17,11 +17,11 @@ class VoltForm extends HTMLElement {
     children.forEach((child) => {
       switch(child.tagName) {
         case "INPUT":
-          this.setupVoltInput(child)
+          this.setupTildeInput(child)
           break
       }
     })
   }
 }
 
-export default VoltForm
+export default TildeForm
