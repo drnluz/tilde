@@ -21,6 +21,8 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@webcomponents/custom-elements": "^1.4.2"
+    "@webcomponents/custom-elements": "^1.4.2",
+    "moo": "^0.5.1",
+    "nearley": "^2.19.6"
   }
 }
