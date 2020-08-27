@@ -4,9 +4,52 @@ const lexer = require("./lexer")
 
 @lexer lexer
 
-main -> expression {% id %}
+main -> boolean_comparison {% id %}
 
-expression -> or_expression {% id %}
+boolean_comparison -> or_expression {% id %}
+                    | comparison_expression {% id %}
+                    | comparison_expression _ (%eq|%neq) _ boolean_comparison
+                    {% d => ({
+                      type: "equality_operation",
+                      operator: d[2][0].value,
+                      left: d[0],
+                      right: d[4]
+                    })%}
+                    | or_expression _ (%eq|%neq) _ boolean_comparison
+                    {% d => ({
+                      type: "equality_operation",
+                      operator: d[2][0].value,
+                      left: d[0],
+                      right: d[4]
+                    })%}
+
+comparison_expression -> additive_expression {% id %}
+                       | additive_expression _ comparison_operator _ comparison_expression
+                         {% d => ({
+                           type: "comparison_operation",
+                           operator: d[2].value,
+                           left: d[0],
+                           right: d[4]
+                         })
+                         %}
+
+additive_expression -> multiplicative_expression {% id %}
+                     | multiplicative_expression _ [+-] _ additive_expression
+                     {% d => ({
+                      type: "arithmetic_operation",
+                      operator: d[2].value,
+                      left: d[0],
+                      right: d[4]
+                    })%}
+
+multiplicative_expression -> unary_expression {% id %}
+                           | unary_expression _ [*/%] _ multiplicative_expression
+                           {% d => ({
+                              type: "arithmetic_operation",
+                              operator: d[2].value,
+                              left: d[0],
+                              right: d[4]
+                            })%}
 
 or_expression -> and_expression {% id %}
                | and_expression _ %or _ and_expression
@@ -26,16 +69,21 @@ and_expression -> not_operation {% id %}
                   })
                   %}
 
-not_operation -> unary_expression {% id %}
-               | %not _ unary_expression
+not_operation -> unary_boolean_expression {% id %}
+               | %not _ unary_boolean_expression
                  {% d => ({
                     type: "not_operation",
                     value: d[2]
                  })
                  %}
 
-unary_expression -> boolean {% id %}
-                  | %lparen _ expression _ %rparen {% d => d[2] %}
+unary_boolean_expression -> boolean {% id %}
+                          | %lparen _ boolean_comparison _ %rparen {% d => d[2] %}
+
+unary_expression -> number {% id %}
+                  | string {% id %}
+                  | variable {% id %}
+                  | %lparen _ additive_expression _ %rparen {% d => d[2] %}
 
 boolean -> %true
           {% d => ({
@@ -49,5 +97,30 @@ boolean -> %true
             value: false
          })
          %}
+
+number -> %number_literal
+         {% d => ({
+           type: "literal",
+           value: d[0].value
+         })%}
+
+string -> %string_literal
+         {% d => ({
+           type: "literal",
+           value: d[0].value
+         })%}
+
+variable -> %identifier
+          {% d => ({
+            type: "variable",
+            name: d[0].value
+          })%}
+
+comparison_operator -> %lte {% id %}
+                     | %lt {% id %}
+                     | %gte {% id %}
+                     | %gt {% id %}
+                     | %eq {% id %}
+                     | %neq {% id %}
 
 _ -> %ws:* {% d => null %}

@@ -22,6 +22,47 @@ operations = {
   },
   literal(node) {
     return node.value
+  },
+  equality_operation(node) {
+    if (node.operator == "!=") {
+      return evaluateNode(node.left) != evaluateNode(node.right)
+    }
+    else {
+      return evaluateNode(node.left) == evaluateNode(node.right)
+    }
+  },
+  comparison_operation(node) {
+    switch(node.operator) {
+      case '==':
+        return evaluateNode(node.left) == evaluateNode(node.right)
+      case '!=':
+        return evaluateNode(node.left) != evaluateNode(node.right)
+      case '<':
+        return evaluateNode(node.left) < evaluateNode(node.right)
+      case '<=':
+        return evaluateNode(node.left) <= evaluateNode(node.right)
+      case '>':
+        return evaluateNode(node.left) > evaluateNode(node.right)
+      case '>=':
+        return evaluateNode(node.left) >= evaluateNode(node.right)
+    }
+  },
+  arithmetic_operation(node) {
+    switch(node.operator) {
+      case '+':
+        return evaluateNode(node.left) + evaluateNode(node.right)
+      case '-':
+        return evaluateNode(node.left) - evaluateNode(node.right)
+      case '*':
+        return evaluateNode(node.left) * evaluateNode(node.right)
+      case '/':
+        return evaluateNode(node.left) / evaluateNode(node.right)
+      case '%':
+        return evaluateNode(node.left) % evaluateNode(node.right)
+    }
+  },
+  variable(node) {
+    return 1
   }
 }
 
@@ -30,7 +71,7 @@ function evaluateNode(node) {
   return operation(node)
 }
 
-parser.feed("(true || true) && ( !true || false)")
+parser.feed('"abc" == "abc"')
 ast = parser.results[0]
 puts(ast)
 puts(evaluateNode(ast))

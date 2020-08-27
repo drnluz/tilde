@@ -7,6 +7,7 @@ const lexer = moo.compile({
     gte: ">=",
     gt: ">",
     eq: "==",
+    neq: "!=",
     lparen: "(",
     rparen: ")",
     comma: ",",
