@@ -2,7 +2,6 @@ import Tilde from '..'
 
 class TildeInput {
   constructor(element) {
-    // Check if element is INPUT
     this.element = element
     this.boundAttributes = []
 
@@ -16,13 +15,7 @@ class TildeInput {
 
         state.on('change', (_, newValue) => {
           let originalAttribute = attr.name.replace('~', '')
-
-          // It doesnt enter an infinite loop of 'change' triggers...
           this.element.setAttribute(originalAttribute, newValue)
-        })
-
-        this.element.addEventListener('change', (_) => {
-          Tilde.updateState({ path: statePath, value: this.element.value })
         })
       }
     }
