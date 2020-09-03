@@ -47,12 +47,19 @@ class TildeGeneric {
   }
 
   setupVariableChangeListener(attributeName, variableName) {
-    let state = Tilde.findState(variableName)
+    const state = Tilde.findState(variableName)
+    const originalAttribute = attributeName.replace('~', '')
 
     state.on('change', (_, _a) => {
-      let originalAttribute = attributeName.replace('~', '')
       let result = this.expressions[attributeName].evaluate()
-      this.element.setAttribute(originalAttribute, result)
+
+      // setAttribute('value', ...) won't work if the input element has a value input by the user (??)
+      if (originalAttribute === 'value') {
+        this.element.value = result
+      }
+      else {
+        this.element.setAttribute(originalAttribute, result)
+      }
     })
   }
 }
