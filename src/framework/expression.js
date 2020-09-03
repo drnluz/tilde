@@ -3,11 +3,11 @@ import Interpreter from './expressions/interpreter'
 import grammar from './expressions/parser/grammar'
 
 class Expression {
-  constructor(expression, variableResolver) {
+  constructor(expression, variableResolver, variableSetter) {
     this.expression = expression
     this.ast = {}
     this.variables = []
-    this.interpreter = new Interpreter(variableResolver)
+    this.interpreter = new Interpreter(variableResolver, variableSetter)
 
     this.parseExpression()
   }

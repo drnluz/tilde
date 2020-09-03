@@ -24,11 +24,25 @@
     </script>
   </t-state>
 
+  <t-state name="state">
+    <script type="application/json">
+      {
+        "variable": "My text"
+      }
+    </script>
+  </t-state>
+
   <t-view>
-    <input type="text" placeholder="Add TODO" ~value="todos.addTodoField">
-    <!-- <button ~click='todos.todos.add({ "done": false, "text": addTodoField.value });
-                    todos.addTodoField = ""'>Add</button> -->
+    <input type="text" placeholder="Write something" ~value='state.variable'>
+    <button ~click='state.variable = "Another text"'>Set Text</button>
   </t-view>
+
+
+  <!-- <t-view>
+    <input type="text" placeholder="Add TODO" ~value='todos.addTodoField + " hi"'>
+    <button ~click='todos.todos.add({ "done": false, "text": addTodoField.value });
+                    todos.addTodoField = ""'>Add</button>
+  </t-view> -->
 
   <!-- <div ~for="todos.todos"> defaults to "item in todos.todos"-->
   <!-- Can be a simple div ~for treated as a t-for internally. But let's keep this way for now-->

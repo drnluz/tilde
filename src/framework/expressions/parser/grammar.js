@@ -8,6 +8,12 @@ var grammar = {
     Lexer: lexer,
     ParserRules: [
     {"name": "main", "symbols": ["boolean_comparison"], "postprocess": id},
+    {"name": "main", "symbols": ["assignment_expression"], "postprocess": id},
+    {"name": "assignment_expression", "symbols": ["variable", "_", (lexer.has("assign") ? {type: "assign"} : assign), "_", "boolean_comparison"], "postprocess":  d => ({
+          type: "assignment_operation",
+          variable: d[0],
+          value: d[4]
+        })},
     {"name": "boolean_comparison", "symbols": ["or_expression"], "postprocess": id},
     {"name": "boolean_comparison", "symbols": ["comparison_expression"], "postprocess": id},
     {"name": "boolean_comparison$subexpression$1", "symbols": [(lexer.has("eq") ? {type: "eq"} : eq)]},

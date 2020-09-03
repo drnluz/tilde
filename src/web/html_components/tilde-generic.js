@@ -34,12 +34,33 @@ class TildeGeneric {
   setupTildeAttribute(attr) {
     const attributeName = attr.name.replace('~', '').replace('data-tilde-', '')
 
-    const expression = new Expression(attr.value, this.resolveVariable)
+    if (['click'].includes(attributeName)) {
+      this.setupEventListener(attr, attributeName)
+    }
+    else {
+      this.setupAttribute(attr)
+    }
+  }
+
+  setupAttribute(attr) {
+    const expression = new Expression(attr.value, this.resolveVariable, this.setVariable)
     this.expressions[attr.name] = expression
 
     expression.variables.forEach((variableName) => {
       this.setupVariableChangeListener(attr.name, variableName)
     })
+  }
+
+  setupEventListener(attr, eventName) {
+    this.expressions[attr.name] = new Expression(attr.value, this.resolveVariable, this.setVariable)
+
+    this.element.addEventListener(eventName, (_) => {
+      this.expressions[attr.name].evaluate()
+    })
+  }
+
+  setVariable(variableName, value) {
+    Tilde.findState(variableName).update(value)
   }
 
   resolveVariable(name) {

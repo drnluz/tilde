@@ -1,6 +1,11 @@
 export default class {
-  constructor(resolveVariable) {
+  constructor(resolveVariable, assignToVariable) {
     this.resolveVariable = resolveVariable
+    this.assignToVariable = assignToVariable
+  }
+
+  assignment_operation(node) {
+    this.assignToVariable(node.variable.name, node.value.value)
   }
 
   and_operation(node) {

@@ -20,6 +20,7 @@ const lexer = moo.compile({
     not: "!",
     true: "true",
     false: "false",
+    assign: "=",
     string_literal: {
       match: /"(?:[^\n\\"]|\\["\\ntbfr])*"/,
       value: s => JSON.parse(s)

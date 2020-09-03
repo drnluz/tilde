@@ -5,6 +5,14 @@ const lexer = require("./lexer")
 @lexer lexer
 
 main -> boolean_comparison {% id %}
+      | assignment_expression {% id %}
+
+assignment_expression -> variable _ %assign _ boolean_comparison
+                       {% d => ({
+                         type: "assignment_operation",
+                         variable: d[0],
+                         value: d[4]
+                       })%}
 
 boolean_comparison -> or_expression {% id %}
                     | comparison_expression {% id %}
