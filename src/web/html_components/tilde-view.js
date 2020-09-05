@@ -1,5 +1,5 @@
 import '@webcomponents/custom-elements'
-import TildeGeneric from './tilde-generic'
+import ComponentBuilder from '../components/component-builder'
 
 class TildeView extends HTMLElement {
   constructor() {
@@ -8,7 +8,7 @@ class TildeView extends HTMLElement {
   }
 
   connectedCallback() {
-    this.root = new TildeGeneric(this)
+    this.root = ComponentBuilder.build(this)
   }
 }
 

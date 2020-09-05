@@ -27,14 +27,16 @@
   <t-state name="state">
     <script type="application/json">
       {
-        "variable": "My text"
+        "usernameInput": "",
+        "username": ""
       }
     </script>
   </t-state>
 
   <t-view>
-    <input type="text" placeholder="Write something" ~value='state.variable'>
-    <button ~click='state.variable = "Another text"'>Set Text</button>
+    <input type="text" placeholder="What's your name?" ~value='state.usernameInput'>
+    <button ~click='state.username = state.usernameInput'>Say Hi!</button>
+    <p ~innerHTML='"Hi "+ state.username'></p>
   </t-view>
 
 
