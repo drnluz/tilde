@@ -1,11 +1,10 @@
 export default class {
-  constructor(resolveVariable, assignToVariable) {
-    this.resolveVariable = resolveVariable
-    this.assignToVariable = assignToVariable
+  constructor(context) {
+    this.context = context
   }
 
   assignment_operation(node) {
-    this.assignToVariable(node.variable.name, node.value.value)
+    this.context.setVariable(node.variable.name, this.evaluate(node.value))
   }
 
   and_operation(node) {
@@ -66,7 +65,7 @@ export default class {
   }
 
   variable(node) {
-    return this.resolveVariable(node.name)
+    return this.context.resolveVariable(node.name)
   }
 
   evaluate(node) {

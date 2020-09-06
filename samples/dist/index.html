@@ -34,7 +34,7 @@
   </t-state>
 
   <t-view>
-    <input type="text" placeholder="What's your name?" ~value='state.usernameInput'>
+    <input type="text" placeholder="What's your name?" ~value='state.usernameInput' ~change='state.usernameInput = event.value'>
     <button ~click='state.username = state.usernameInput'>Say Hi!</button>
     <p ~innerHTML='"Hi "+ state.username'></p>
   </t-view>

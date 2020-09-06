@@ -16,7 +16,7 @@ class AttributesBuilder {
   }
 
   static get EVENTNAMES() {
-    return ['click']
+    return ['click', 'change']
   }
 }
 

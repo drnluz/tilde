@@ -1,12 +1,13 @@
 import { resolveVariable, setVariable, findState } from '../components/helper'
 import Expression from '../../framework/expression'
+import ExpressionContext from '../../framework/expression-context'
 
 class Attribute {
   constructor(name, attr, element) {
     this.name = name
     this.attr = attr
     this.element = element
-    this.expression = new Expression(this.attr.value, resolveVariable, setVariable)
+    this.expression = new Expression(this.attr.value)
 
     this.expression.variables.forEach((variableName) => {
       this.setupVariableChangeListener(variableName)
@@ -19,7 +20,8 @@ class Attribute {
   }
 
   render() {
-    const result = this.expression.evaluate()
+    const context = new ExpressionContext(resolveVariable, setVariable)
+    const result = this.expression.evaluate(context)
 
     switch(this.name) {
       case 'value':

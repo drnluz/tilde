@@ -3,24 +3,25 @@ import Interpreter from './expressions/interpreter'
 import grammar from './expressions/parser/grammar'
 
 class Expression {
-  constructor(expression, variableResolver, variableSetter) {
+  constructor(expression) {
     this.expression = expression
     this.ast = {}
     this.variables = []
-    this.interpreter = new Interpreter(variableResolver, variableSetter)
 
     this.parseExpression()
   }
 
   parseExpression() {
-    const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar))
+    const compiledGrammar = nearley.Grammar.fromCompiled(grammar)
+    const parser = new nearley.Parser(compiledGrammar)
     parser.feed(this.expression)
+
     this.ast = parser.results[0]
-    this.variables = this.interpreter.findVariables(this.ast)
+    this.variables = new Interpreter().findVariables(this.ast)
   }
 
-  evaluate() {
-    return this.interpreter.evaluate(this.ast)
+  evaluate(context) {
+    return new Interpreter(context).evaluate(this.ast)
   }
 }
 
