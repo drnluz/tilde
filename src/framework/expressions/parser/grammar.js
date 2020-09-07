@@ -7,8 +7,8 @@ const lexer = require("./lexer")
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "main", "symbols": ["boolean_comparison"], "postprocess": id},
-    {"name": "main", "symbols": ["assignment_expression"], "postprocess": id},
+    {"name": "main", "symbols": ["_", "boolean_comparison", "_"], "postprocess": d => d[1]},
+    {"name": "main", "symbols": ["_", "assignment_expression", "_"], "postprocess": d => d[1]},
     {"name": "assignment_expression", "symbols": ["variable", "_", (lexer.has("assign") ? {type: "assign"} : assign), "_", "boolean_comparison"], "postprocess":  d => ({
           type: "assignment_operation",
           variable: d[0],

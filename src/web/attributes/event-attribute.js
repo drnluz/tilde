@@ -7,19 +7,21 @@ class EventAttribute {
     this.name = name
     this.attr = attr
     this.element = element
-    this.expression = new Expression(this.attr.value)
+    this.expressions = this.attr.value.split(';').map((expr) => new Expression(expr))
 
     this.element.addEventListener(this.name, (event) => {
       const eventValue = event.currentTarget.value
-      const context = new ExpressionContext(resolveVariable, setVariable)
-      context.addExtraState({ event: { value: eventValue  } })
-
-      this.expression.evaluate(context)
+      this.render({ event: { value: eventValue  } })
     })
   }
 
-  render() {
-    /* Do nothing */
+  render(extraState) {
+    const context = new ExpressionContext(resolveVariable, setVariable)
+    context.addExtraState(extraState)
+
+    this.expressions.forEach((expression) => {
+      expression.evaluate(context)
+    })
   }
 }
 
