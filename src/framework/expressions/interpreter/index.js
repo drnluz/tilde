@@ -68,6 +68,28 @@ export default class {
     return this.context.resolveVariable(node.name)
   }
 
+  function_call(node) {
+    const resolvedArgs = node.args.map((arg) => this.evaluate(arg))
+    return this.context.callFunction(this.evaluate(node.name), resolvedArgs)
+  }
+
+  identifier(node) {
+    return node.value
+  }
+
+  object(node) {
+    const obj = {}
+    node.members.forEach(member => {
+      let { key, value } = this.evaluate(member)
+      obj[key] = value
+    })
+    return obj
+  }
+
+  object_member(node) {
+    return { key: this.evaluate(node.key), value: this.evaluate(node.value) }
+  }
+
   evaluate(node) {
     return this[node.type].call(this, node)
   }

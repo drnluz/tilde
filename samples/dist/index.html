@@ -19,32 +19,16 @@
           { "text": "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit.", "done": false },
           { "text": "2 Lorem ipsum dolor sit amet, consectetur adipisicing elit.", "done": true }
         ],
-        "addTodoField": ""
-      }
-    </script>
-  </t-state>
-
-  <t-state name="state">
-    <script type="application/json">
-      {
-        "usernameInput": "",
-        "username": ""
+        "newTodoInput": ""
       }
     </script>
   </t-state>
 
   <t-view>
-    <input type="text" placeholder="What's your name?" ~value='state.usernameInput' ~change='state.usernameInput = event.value'>
-    <button ~click='state.username = state.usernameInput; state.usernameInput = ""'>Say Hi!</button>
-    <p ~innerHTML='"Hi "+ state.username'></p>
+    <input type="text" placeholder="Add TODO" ~value="todos.newTodoInput" ~change='todos.newTodoInput = event.value'>
+    <button ~click='todos.todos.add({ "done": false, "text": todos.newTodoInput });
+                    todos.newTodoInput = ""'>Add</button>
   </t-view>
-
-
-  <!-- <t-view>
-    <input type="text" placeholder="Add TODO" ~value='todos.addTodoField + " hi"'>
-    <button ~click='todos.todos.add({ "done": false, "text": addTodoField.value });
-                    todos.addTodoField = ""'>Add</button>
-  </t-view> -->
 
   <!-- <div ~for="todos.todos"> defaults to "item in todos.todos"-->
   <!-- Can be a simple div ~for treated as a t-for internally. But let's keep this way for now-->

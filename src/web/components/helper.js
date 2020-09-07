@@ -11,3 +11,7 @@ export function resolveVariable(name) {
 export function findState(name) {
   return Tilde.findState(name)
 }
+
+export function callFunction(name, args) {
+  return Tilde.callFunction(name, args)
+}

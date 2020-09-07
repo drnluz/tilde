@@ -10,6 +10,8 @@ const lexer = moo.compile({
     neq: "!=",
     lparen: "(",
     rparen: ")",
+    opencurly: "{",
+    closecurly: "}",
     comma: ",",
     plus: "+",
     minus: "-",
@@ -21,6 +23,7 @@ const lexer = moo.compile({
     true: "true",
     false: "false",
     assign: "=",
+    colon: ":",
     string_literal: {
       match: /"(?:[^\n\\"]|\\["\\ntbfr])*"/,
       value: s => JSON.parse(s)

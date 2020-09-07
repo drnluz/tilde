@@ -1,4 +1,4 @@
-import { resolveVariable, setVariable } from '../components/helper'
+import { resolveVariable, setVariable, callFunction } from '../components/helper'
 import Expression from '../../framework/expression'
 import ExpressionContext from '../../framework/expression-context'
 
@@ -16,7 +16,7 @@ class EventAttribute {
   }
 
   render(extraState) {
-    const context = new ExpressionContext(resolveVariable, setVariable)
+    const context = new ExpressionContext(resolveVariable, setVariable, callFunction)
     context.addExtraState(extraState)
 
     this.expressions.forEach((expression) => {

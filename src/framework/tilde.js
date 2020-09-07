@@ -24,6 +24,21 @@ class Tilde {
     const statePart = this.findState(path)
     statePart.update(value, emit)
   }
+
+  callFunction(name, args) {
+    const splitName = name.split('.')
+    const stateName = splitName.slice(0, -1).join('.')
+    const methodName = splitName.slice(-1)[0]
+
+    // TODO: Validate if method name is allowed
+    const state = this.findState(stateName)
+    const fn = state[methodName]
+
+    fn.call(state, ...args)
+
+
+    console.log(name + '(' + args.join(',') + ')')
+  }
 }
 
 export default Tilde

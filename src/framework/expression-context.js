@@ -1,9 +1,10 @@
 import { get, merge } from 'lodash/object'
 
 class ExpressionContext {
-  constructor(variableResolver, variableSetter) {
+  constructor(variableResolver, variableSetter, functionCaller) {
     this.variableResolver = variableResolver
     this.variableSetter = variableSetter
+    this.functionCaller = functionCaller
     this.extraState = {}
   }
 
@@ -27,6 +28,10 @@ class ExpressionContext {
 
   resolveFromExtraState(name) {
     return get(this.extraState, name)
+  }
+
+  callFunction(name, args) {
+    return this.functionCaller(name, args)
   }
 }
 

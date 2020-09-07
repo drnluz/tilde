@@ -79,6 +79,8 @@ var grammar = {
     {"name": "unary_expression", "symbols": ["number"], "postprocess": id},
     {"name": "unary_expression", "symbols": ["string"], "postprocess": id},
     {"name": "unary_expression", "symbols": ["variable"], "postprocess": id},
+    {"name": "unary_expression", "symbols": ["function_call"], "postprocess": id},
+    {"name": "unary_expression", "symbols": ["object"], "postprocess": id},
     {"name": "unary_expression", "symbols": [(lexer.has("lparen") ? {type: "lparen"} : lparen), "_", "additive_expression", "_", (lexer.has("rparen") ? {type: "rparen"} : rparen)], "postprocess": d => d[2]},
     {"name": "boolean", "symbols": [(lexer.has("true") ? {type: "true"} : true)], "postprocess":  d => ({
           type: "literal",
@@ -101,6 +103,26 @@ var grammar = {
     {"name": "variable", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)], "postprocess":  d => ({
           type: "variable",
           name: d[0].value
+        })},
+    {"name": "function_call", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier), "_", (lexer.has("lparen") ? {type: "lparen"} : lparen), "_", "arguments", "_", (lexer.has("rparen") ? {type: "rparen"} : rparen)], "postprocess":  d => ({
+          type: "function_call",
+          name: d[0],
+          args: d[4]
+        })},
+    {"name": "arguments", "symbols": []},
+    {"name": "arguments", "symbols": ["_", "boolean_comparison", "_"], "postprocess": d => [d[1]]},
+    {"name": "arguments", "symbols": ["_", "boolean_comparison", "_", (lexer.has("comma") ? {type: "comma"} : comma), "arguments"], "postprocess": d => [d[1], ...d[4]]},
+    {"name": "object", "symbols": [(lexer.has("opencurly") ? {type: "opencurly"} : opencurly), "object_members", (lexer.has("closecurly") ? {type: "closecurly"} : closecurly)], "postprocess":  d => ({
+          type: "object",
+          members: d[1]
+        })},
+    {"name": "object_members", "symbols": []},
+    {"name": "object_members", "symbols": ["_", "object_member", "_"], "postprocess": d => [d[1]]},
+    {"name": "object_members", "symbols": ["_", "object_member", (lexer.has("comma") ? {type: "comma"} : comma), "_", "object_members", "_"], "postprocess": d => [d[1], ...d[4]]},
+    {"name": "object_member", "symbols": ["string", "_", (lexer.has("colon") ? {type: "colon"} : colon), "_", "boolean_comparison"], "postprocess":  d => ({
+          type: "object_member",
+          key: d[0],
+          value: d[4]
         })},
     {"name": "comparison_operator", "symbols": [(lexer.has("lte") ? {type: "lte"} : lte)], "postprocess": id},
     {"name": "comparison_operator", "symbols": [(lexer.has("lt") ? {type: "lt"} : lt)], "postprocess": id},

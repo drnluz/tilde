@@ -14,8 +14,8 @@ class StateTree {
     this._callbacks = callbacks || {}
 
     if (Utils.isObject(value)) {
-
       Object.keys(value).forEach((key) => {
+
         value[key] = new StateTree(value[key], this)
 
         Object.defineProperty(this, key, {
@@ -41,6 +41,10 @@ class StateTree {
     if (emit) {
       this.emit('change')
     }
+  }
+
+  add(newValue) {
+    this._value = this._value.concat(new StateTree(newValue, this))
   }
 
   on(event, callback) {

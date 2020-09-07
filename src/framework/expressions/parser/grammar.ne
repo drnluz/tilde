@@ -91,6 +91,8 @@ unary_boolean_expression -> boolean {% id %}
 unary_expression -> number {% id %}
                   | string {% id %}
                   | variable {% id %}
+                  | function_call {% id %}
+                  | object {% id %}
                   | %lparen _ additive_expression _ %rparen {% d => d[2] %}
 
 boolean -> %true
@@ -123,6 +125,38 @@ variable -> %identifier
             type: "variable",
             name: d[0].value
           })%}
+
+function_call -> %identifier _ %lparen _ arguments _ %rparen
+               {% d => ({
+                 type: "function_call",
+                 name: d[0],
+                 args: d[4]
+               })%}
+
+arguments -> null
+           | _ boolean_comparison _
+           {% d => [d[1]] %}
+           | _ boolean_comparison _ %comma arguments
+           {% d => [d[1], ...d[4]] %}
+
+object -> %opencurly object_members %closecurly
+        {% d => ({
+          type: "object",
+          members: d[1]
+        })%}
+
+object_members -> null
+                | _ object_member _
+                {% d => [d[1]] %}
+                | _ object_member %comma _ object_members _
+                {% d => [d[1], ...d[4]] %}
+
+object_member -> string _ %colon _ boolean_comparison
+               {% d => ({
+                 type: "object_member",
+                 key: d[0],
+                 value: d[4]
+               })%}
 
 comparison_operator -> %lte {% id %}
                      | %lt {% id %}

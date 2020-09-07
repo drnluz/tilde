@@ -1,4 +1,4 @@
-import { resolveVariable, setVariable, findState } from '../components/helper'
+import { resolveVariable, setVariable, callFunction, findState } from '../components/helper'
 import Expression from '../../framework/expression'
 import ExpressionContext from '../../framework/expression-context'
 
@@ -20,7 +20,7 @@ class Attribute {
   }
 
   render() {
-    const context = new ExpressionContext(resolveVariable, setVariable)
+    const context = new ExpressionContext(resolveVariable, setVariable, callFunction)
     const result = this.expression.evaluate(context)
 
     switch(this.name) {
