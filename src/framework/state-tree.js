@@ -1,10 +1,4 @@
-class Utils {
-  // https://github.com/jashkenas/underscore/blob/master/underscore.js#L87
-  static isObject(obj) {
-    var type = typeof obj
-    return type === 'function' || type === 'object' && !!obj
-  }
-}
+import { isObject } from 'lodash/lang'
 
 class StateTree {
   constructor(value, parent, callbacks) {
@@ -12,7 +6,7 @@ class StateTree {
     this._value = value
     this._callbacks = callbacks || {}
 
-    if (Utils.isObject(this._value)) {
+    if (isObject(this._value)) {
       Object.keys(this._value).forEach((key) => {
         this._value[key] = new StateTree(this._value[key], this)
       })
@@ -28,7 +22,7 @@ class StateTree {
   }
 
   set(newValue, emit = true) {
-    if (Utils.isObject(newValue)) {
+    if (isObject(newValue)) {
       this._value = new StateTree(newValue, this)
     }
     else {
