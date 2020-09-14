@@ -6,15 +6,15 @@ class Tilde {
   }
 
   addState(name, obj) {
-    this.state[name] = new StateTree(obj)
+    this.state.setKey(name, obj)
   }
 
-  findState(path) {
+  findState(path, stateNode) {
     const pathParts = path.split('.')
-    let statePart = this.state
+    let statePart = stateNode || this.state
 
     pathParts.forEach((pathPart) => {
-      statePart = statePart[pathPart] || {}
+      statePart = statePart.get(pathPart)
     })
 
     return statePart
@@ -22,7 +22,7 @@ class Tilde {
 
   updateState({ path, value, emit }) {
     const statePart = this.findState(path)
-    statePart.update(value, emit)
+    statePart.set(value, emit)
   }
 
   callFunction(name, args) {

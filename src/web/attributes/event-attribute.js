@@ -1,12 +1,12 @@
-import { resolveVariable, setVariable, callFunction } from '../components/helper'
 import Expression from '../../framework/expression'
 import ExpressionContext from '../../framework/expression-context'
 
 class EventAttribute {
-  constructor(name, attr, element) {
+  constructor(name, attr, element, elementContext) {
     this.name = name
     this.attr = attr
     this.element = element
+    this.elementContext = elementContext
     this.expressions = this.attr.value.split(';').map((expr) => new Expression(expr))
 
     this.element.addEventListener(this.name, (event) => {
@@ -16,12 +16,16 @@ class EventAttribute {
   }
 
   render(extraState) {
-    const context = new ExpressionContext(resolveVariable, setVariable, callFunction)
+    const context = new ExpressionContext(this.elementContext)
     context.addExtraState(extraState)
 
     this.expressions.forEach((expression) => {
       expression.evaluate(context)
     })
+  }
+
+  isEventListener() {
+    return true
   }
 }
 

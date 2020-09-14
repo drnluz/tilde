@@ -1,9 +1,11 @@
 import ComponentBuilder from './component-builder'
 import AttributesBuilder from '../attributes/attributes-builder'
+import ElementContext from './element-context'
 
 class GenericComponent {
-  constructor(element) {
+  constructor(element, context) {
     this.element = element
+    this.context = context || new ElementContext(this.element)
     this.children = []
     this.attributes = []
 
@@ -17,13 +19,18 @@ class GenericComponent {
     }
 
     Array.from(this.element.children).forEach((child) => {
-      this.children.push(ComponentBuilder.build(child))
+      this.children.push(ComponentBuilder.build(child, this.context))
     })
   }
 
   setupTildeAttributes() {
     Array.from(this.element.attributes).forEach((attr) => {
-      this.attributes.push(AttributesBuilder.build(attr, this.element))
+      let attribute = AttributesBuilder.build(attr, this.element, this.context)
+
+      if (attribute && !attribute.isEventListener()) {
+        this.attributes.push(attribute)
+        attribute.render()
+      }
     })
   }
 }

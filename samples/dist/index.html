@@ -28,15 +28,12 @@
     <input type="text" placeholder="Add TODO" ~value="todos.newTodoInput" ~change='todos.newTodoInput = event.value'>
     <button ~click='todos.todos.add({ "done": false, "text": todos.newTodoInput });
                     todos.newTodoInput = ""'>Add</button>
-  </t-view>
 
-  <!-- <div ~for="todos.todos"> defaults to "item in todos.todos"-->
-  <!-- Can be a simple div ~for treated as a t-for internally. But let's keep this way for now-->
-  <!-- <t-for ~for="todos.todos">
-    <input type="checkbox" ~checked="done">
-    <span ~class='done ? "done" : ""' ~innerHtml='text'></span>
-    <button ~click='todos.todos.remove({ text: text })'>X</button>
-  </t-for> -->
+    <div ~for="todos.todos">
+      <input type="checkbox" ~checked="done">
+      <span ~innerHtml='text'></span>
+    </div>
+  </t-view>
 
 </body>
 </html>

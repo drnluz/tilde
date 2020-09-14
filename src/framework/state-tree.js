@@ -8,29 +8,26 @@ class Utils {
 
 class StateTree {
   constructor(value, parent, callbacks) {
-    var _this = this
     this._parent = parent
     this._value = value
     this._callbacks = callbacks || {}
 
-    if (Utils.isObject(value)) {
-      Object.keys(value).forEach((key) => {
-
-        value[key] = new StateTree(value[key], this)
-
-        Object.defineProperty(this, key, {
-          set: (newValue) => {
-             // not pretty, I know, but it works and it's enough for now
-            _this._value[key] = new StateTree(newValue, _this, _this._value[key]._callbacks)
-            _this._value[key].emit('change')
-          },
-          get: () => _this._value[key]
-        })
+    if (Utils.isObject(this._value)) {
+      Object.keys(this._value).forEach((key) => {
+        this._value[key] = new StateTree(this._value[key], this)
       })
     }
   }
 
-  update(newValue, emit = true) {
+  setKey(key, obj) {
+    this._value[key] = new StateTree(obj, this)
+  }
+
+  get(key) {
+    return this._value[key]
+  }
+
+  set(newValue, emit = true) {
     if (Utils.isObject(newValue)) {
       this._value = new StateTree(newValue, this)
     }
@@ -45,6 +42,7 @@ class StateTree {
 
   add(newValue) {
     this._value = this._value.concat(new StateTree(newValue, this))
+    this.emit('change')
   }
 
   on(event, callback) {

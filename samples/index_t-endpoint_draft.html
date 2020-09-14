@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>tilde.html</title>
+<script src="./simple_state.js"></script>
+
+<style>
+  .done {
+    text-decoration: line-through;
+  }
+</style>
+
+</head>
+<body>
+  <t-state name="app">
+    <script type="application/json">
+      {
+        "loaded": false,
+        "inputs": {
+          "addTodoField": ""
+        }
+      }
+    </script>
+  </t-state>
+
+  <t-state name="todos" url="/todos" ~loaded="app.loaded = true"></t-state>
+  <t-endpoint name="todosEndpoint" url="/todos" method="POST"></t-endpoint>
+
+  <input type="text" placeholder="Add TODO" ~value="app.inputs.addTodoField">
+  <button ~click='todosEndpoint.send({ "done": false, "text": app.inputs.addTodoField })
+                               .then(
+                                 todos.todos.add({ "done": false, "text": app.inputs.addTodoField });
+                                 app.inputs.addTodoField = ""
+                                );'
+  >Add</button>
+
+  <!-- <div ~for="todos.todos"> defaults to "item in todos.todos"-->
+  <div ~for="todo in todos.todos">
+    <input type="checkbox" ~checked="todo.done">
+    <span ~class='todo.done ? "done" : ""' ~innerHtml='todo.text'></span>
+    <button ~click='todos.todos.remove({ text: todo.text })'>X</button>
+  </div>
+
+</body>
+</html>
