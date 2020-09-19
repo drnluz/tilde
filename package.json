@@ -4,7 +4,7 @@
   "description": "tilde.html",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/drnluz/tilde#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "jest": "^26.4.2",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
@@ -25,5 +27,18 @@
     "lodash": "^4.17.20",
     "moo": "^0.5.1",
     "nearley": "^2.19.6"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "modules": "commonjs",
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
   }
 }
