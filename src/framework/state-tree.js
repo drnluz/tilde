@@ -2,41 +2,43 @@ import { isObject } from 'lodash/lang'
 
 class StateTree {
   constructor(value, parent, callbacks) {
-    this._parent = parent
     this._value = value
+    this._parent = parent
     this._callbacks = callbacks || {}
 
-    if (isObject(this._value)) {
-      Object.keys(this._value).forEach((key) => {
-        this._value[key] = new StateTree(this._value[key], this)
-      })
-    }
-  }
-
-  setKey(key, obj) {
-    this._value[key] = new StateTree(obj, this)
-  }
-
-  get(key) {
-    return this._value[key]
+    this._initializeChild()
   }
 
   set(newValue, emit = true) {
-    if (isObject(newValue)) {
-      this._value = new StateTree(newValue, this)
-    }
-    else {
-      this._value = newValue
-    }
+    this._value = newValue
+    this._initializeChild()
 
     if (emit) {
       this.emit('change')
     }
+
+    return this
   }
 
-  add(newValue) {
+  setKey(key, obj, emit = true) {
+    this._value[key] = new StateTree(obj, this)
+    this._defineGetterAndSetter(key)
+
+    if (emit) {
+      this.emit('change')
+    }
+
+    return this
+  }
+
+  add(newValue, emit = true) {
     this._value = this._value.concat(new StateTree(newValue, this))
-    this.emit('change')
+
+    if (emit) {
+      this.emit('change')
+    }
+
+    return this
   }
 
   on(event, callback) {
@@ -58,6 +60,30 @@ class StateTree {
 
     return this
   }
+
+  /* Private */
+
+  _initializeChild() {
+    if (!isObject(this._value)) {
+      return
+    }
+
+    Object.keys(this._value).forEach((key) => {
+      this._value[key] = new StateTree(this._value[key], this)
+      this._defineGetterAndSetter(key)
+    })
+  }
+
+  _defineGetterAndSetter(key) {
+    let _this = this
+
+    Object.defineProperty(this, key, {
+      get: () => _this._value[key],
+      set: (newValue) => _this.setKey(key, newValue),
+      configurable: true
+    })
+  }
+
 }
 
 export default StateTree
