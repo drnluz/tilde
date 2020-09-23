@@ -13,7 +13,7 @@ class TildeState extends HTMLElement {
     }
 
     // Check if this attribute exists and raise error if not
-    let name = this.attributes["name"].value
+    let name = this.attributes.name.value
     Tilde.addState(name, stateObject)
   }
 }

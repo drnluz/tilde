@@ -1,11 +1,10 @@
 import ComponentBuilder from './component-builder'
 import AttributesBuilder from '../attributes/attributes-builder'
-import ComponentContext from './component-context'
 
 class GenericComponent {
   constructor(element, context) {
     this.element = element
-    this.context = context || new ComponentContext(this.element)
+    this.context = context
     this.children = []
     this.attributes = []
 

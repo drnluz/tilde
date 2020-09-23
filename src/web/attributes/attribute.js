@@ -1,5 +1,5 @@
-import Expression from '../../framework/expression'
-import ExpressionContext from '../../framework/expression-context'
+import Expression from '../../framework/expressions/expression'
+import ExpressionContext from '../../framework/expressions/expression-context'
 
 class Attribute {
   constructor(name, attr, element, componentContext) {

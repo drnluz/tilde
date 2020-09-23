@@ -1,6 +1,6 @@
 import nearley from 'nearley'
-import Interpreter from './expressions/interpreter'
-import grammar from './expressions/parser/grammar'
+import Interpreter from './interpreter'
+import grammar from './parser/grammar'
 
 class Expression {
   constructor(expression) {

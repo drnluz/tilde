@@ -5,8 +5,8 @@ class Tilde {
     this.state = new StateTree({})
   }
 
-  addState(name, obj) {
-    this.state.setKey(name, obj)
+  addState(key, obj) {
+    this.state.setKey(key, obj)
   }
 
   findState(path, stateNode) {
@@ -14,7 +14,7 @@ class Tilde {
     let statePart = stateNode || this.state
 
     pathParts.forEach((pathPart) => {
-      statePart = statePart.get(pathPart)
+      statePart = statePart[pathPart]
     })
 
     return statePart
