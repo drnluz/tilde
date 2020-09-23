@@ -1,6 +1,6 @@
 import ComponentBuilder from './component-builder'
 import AttributesBuilder from '../attributes/attributes-builder'
-import ElementContext from './element-context'
+import ComponentContext from './component-context'
 
 class ForComponent {
   constructor(element, context) {
@@ -8,7 +8,6 @@ class ForComponent {
     this.context = context
     this.components = []
     this.forState = this.findForState()
-
 
     this.render()
 
@@ -27,7 +26,7 @@ class ForComponent {
     this.components = []
 
     this.forState._value.forEach(state => {
-      let context = new ElementContext(state)
+      let context = new ComponentContext(state)
       this.renderElement(context)
     })
   }
@@ -51,7 +50,7 @@ class ForComponent {
     }
 
     const stateNode = this.context.findState(this.tildeForAttributeValue())
-    const childrenContext = new ElementContext(stateNode)
+    const childrenContext = new ComponentContext(stateNode)
 
     Array.from(this.element.children).forEach((child) => {
       this.children.push(ComponentBuilder.build(child, childrenContext))

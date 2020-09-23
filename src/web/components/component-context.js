@@ -1,6 +1,6 @@
 import Tilde from '..'
 
-class ElementContext {
+class ComponentContext {
   constructor(node) {
     this.node = node
   }
@@ -22,4 +22,4 @@ class ElementContext {
   }
 }
 
-export default ElementContext
+export default ComponentContext
